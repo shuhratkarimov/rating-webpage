@@ -289,7 +289,7 @@
     <div id="groupsContainer"></div>
 
     <script>
-      const groupNames = ["1-guruh", "2-guruh", "3-guruh"];
+      const groupNames = ["Kod ustalari💪", "Haqiqiy Fullstack'chilar😎", "Doim birinchilar1️⃣"];
       const scores = {};
 
       // LocalStorage'dan o'qish
@@ -314,7 +314,7 @@
                 (student) => `<li class="student-name">${student.trim()}</li>`
               )
               .join("")
-          : `<li class="no-student">O'quvchi yo'q</li>`;
+          : `<li class="no-student">Dasturchi yo'q</li>`;
 
         div.innerHTML = `
     <h2>${name}</h2>
@@ -322,9 +322,9 @@
     <button onclick="addScore('${name}', 10)">+10</button>
     <button onclick="addScore('${name}', 5)">+5</button>
     <button onclick="addScore('${name}', -5)">-5</button>
-    <h4>O'quvchilar:</h4>
+    <h4>Dasturchilar:</h4>
     <ul id="students-${groupNumber}">${studentListHTML}</ul>
-    <button onclick="clearStudents('${groupNumber}')">O'quvchilarni tozalash</button>
+    <button onclick="clearStudents('${groupNumber}')">Dasturchilarni tozalash</button>
   `;
         container.appendChild(div);
       }
@@ -440,7 +440,7 @@
           `students-${groupNumber}`
         );
         if (studentListElement) {
-          studentListElement.innerHTML = "<li>O'quvchi yo'q</li>";
+          studentListElement.innerHTML = "<li>Dasturchi yo'q</li>";
         }
       }
     </script>
