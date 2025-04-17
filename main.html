@@ -21,7 +21,7 @@
         text-align: center;
         margin: 0;
         padding: 0;
-        transition: background-color 1s ease; /* Silliq o‘zgarish uchun */
+        transition: background-color 1s ease;
       }
       h1 {
         margin-top: 20px;
@@ -120,28 +120,25 @@
         color: white;
         opacity: 1;
       }
-      /* Rangli doira effekti uchun stillar */
 
-      /* Fon qatlamlari uchun stillar */
       .background-layer {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: -1; /* Kontentdan orqada bo‘lishi uchun */
-        transition: opacity 1s ease; /* Silliq opacity o‘zgarishi */
+        z-index: -1;
+        transition: opacity 1s ease;
       }
 
       .layer-1 {
-        opacity: 1; /* Birinchi qatlam dastlab ko‘rinadi */
+        opacity: 1;
       }
 
       .layer-2 {
-        opacity: 0; /* Ikkinchi qatlam dastlab ko‘rinmaydi */
+        opacity: 0;
       }
 
-      /* Tebranish animatsiyasi */
       @keyframes wiggle {
         0% {
           transform: rotate(0deg);
@@ -153,7 +150,7 @@
           transform: rotate(-45deg);
         }
         75% {
-          transform: rotate(45eg);
+          transform: rotate(45deg);
         }
         100% {
           transform: rotate(0deg);
@@ -161,10 +158,9 @@
       }
 
       .score.active {
-        animation: wiggle 0.5s ease; /* Ochko qo‘shilganda tebranish */
+        animation: wiggle 0.5s ease;
       }
 
-      /* Qushlar uchun stillar */
       .bird {
         position: absolute;
         font-size: 24px;
@@ -172,7 +168,6 @@
         animation: fly 2s ease forwards;
       }
 
-      /* Qushlarning uchish animatsiyasi */
       @keyframes fly {
         0% {
           opacity: 1;
@@ -184,7 +179,7 @@
         }
         50% {
           opacity: 1;
-          transform: translate(0, -20px) rotate(20deg); /* Birinchi 1 soniya muallaq turadi */
+          transform: translate(0, -20px) rotate(20deg);
         }
         100% {
           opacity: 0;
@@ -195,7 +190,7 @@
             rotate(200deg);
         }
       }
-      /* Doiralarning yo‘qolish animatsiyasi */
+
       @keyframes fadeOut {
         0% {
           opacity: 0.7;
@@ -205,7 +200,6 @@
         }
       }
 
-      /* Doiralarning harakatlanish animatsiyasi */
       @keyframes move {
         0% {
           transform: translate(0, 0);
@@ -215,7 +209,6 @@
         }
       }
 
-      /* Animations */
       @keyframes fadeIn {
         0% {
           opacity: 0;
@@ -289,27 +282,40 @@
     <div id="groupsContainer"></div>
 
     <script>
-      const groupNames = ["Kod ustalari💪", "Haqiqiy Fullstackchilar😎", "Doim birinchilar1️⃣"];
-      const scores = {};
+      const groups = [
+        {
+          name: "Kod ustalari💪",
+          key: "group1",
+          students: JSON.parse(localStorage.getItem("group1")) || []
+        },
+        {
+          name: "Haqiqiy Fullstackchilar😎",
+          key: "group2",
+          students: JSON.parse(localStorage.getItem("group2")) || []
+        },
+        {
+          name: "Doim birinchilar1️⃣",
+          key: "group3",
+          students: JSON.parse(localStorage.getItem("group3")) || []
+        }
+      ];
 
-      // LocalStorage'dan o'qish
-      groupNames.forEach((name) => {
-        const stored = localStorage.getItem(name);
-        scores[name] = stored ? parseInt(stored) : 0;
+      const scores = {};
+      
+      // LocalStorage'dan ballarni o'qish
+      groups.forEach(group => {
+        const storedScore = localStorage.getItem(group.name);
+        scores[group.name] = storedScore ? parseInt(storedScore) : 0;
       });
+
       const container = document.getElementById("groupsContainer");
 
-      function createGroupUI(name) {
-        console.log(`Creating UI for: ${name}`); // Debugging
-
-        const groupNumber = name.split("-")[0];
-        const students =
-          JSON.parse(localStorage.getItem(`group${groupNumber}`)) || [];
-
+      function createGroupUI(group) {
         const div = document.createElement("div");
         div.className = "group";
-        const studentListHTML = students.length
-          ? students
+        
+        const studentListHTML = group.students.length
+          ? group.students
               .map(
                 (student) => `<li class="student-name">${student.trim()}</li>`
               )
@@ -317,15 +323,15 @@
           : `<li class="no-student">Dasturchi yo'q</li>`;
 
         div.innerHTML = `
-    <h2>${name}</h2>
-    <div class="score" id="score-${name}">${scores[name]}</div>
-    <button onclick="addScore('${name}', 10)">+10</button>
-    <button onclick="addScore('${name}', 5)">+5</button>
-    <button onclick="addScore('${name}', -5)">-5</button>
-    <h4>Dasturchilar:</h4>
-    <ul id="students-${groupNumber}">${studentListHTML}</ul>
-    <button onclick="clearStudents('${groupNumber}')">Dasturchilarni tozalash</button>
-  `;
+          <h2>${group.name}</h2>
+          <div class="score" id="score-${group.name}">${scores[group.name]}</div>
+          <button onclick="addScore('${group.name}', 10)">+10</button>
+          <button onclick="addScore('${group.name}', 5)">+5</button>
+          <button onclick="addScore('${group.name}', -5)">-5</button>
+          <h4>Dasturchilar:</h4>
+          <ul id="students-${group.key}">${studentListHTML}</ul>
+          <button onclick="clearStudents('${group.key}')">Dasturchilarni tozalash</button>
+        `;
         container.appendChild(div);
       }
 
@@ -349,7 +355,6 @@
         scoreElement.classList.add("active");
 
         const rect = scoreElement.getBoundingClientRect();
-        // 3 ta qush yaratish
         for (let i = 0; i < 7; i++) {
           const bird = document.createElement("div");
           bird.className = "bird";
@@ -372,33 +377,31 @@
         localStorage.setItem(name, scores[name]);
         renderRanking();
       };
-      // Reset funksiyasi
+
       function resetScores() {
-        groupNames.forEach((name) => {
-          scores[name] = 0; // Har bir guruhning ballini 0 ga o‘rnatish
-          localStorage.setItem(name, 0); // LocalStorage'da yangilash
-          const scoreElement = document.getElementById(`score-${name}`);
+        groups.forEach(group => {
+          scores[group.name] = 0;
+          localStorage.setItem(group.name, 0);
+          const scoreElement = document.getElementById(`score-${group.name}`);
           if (scoreElement) {
-            scoreElement.innerText = 0; // UI'da ballarni yangilash
+            scoreElement.innerText = 0;
           }
         });
-        renderRanking(); // Reyting ro‘yxatini yangilash
+        renderRanking();
       }
 
-      // Reset tugmasiga hodisa qo‘shish
       document
         .getElementById("resetButton")
         .addEventListener("click", resetScores);
 
       // Boshlanishda UI yasash
-      groupNames.forEach((name) => createGroupUI(name));
+      groups.forEach(group => createGroupUI(group));
       renderRanking();
 
       const layer1 = document.querySelector(".layer-1");
       const layer2 = document.querySelector(".layer-2");
-      let isLayer1Active = true; // Qaysi qatlam faol ekanligini kuzatish
+      let isLayer1Active = true;
 
-      // Tasodifiy gradient generatsiya qilish funksiyasi
       function getRandomGradient() {
         const r1 = Math.floor(Math.random() * 255);
         const g1 = Math.floor(Math.random() * 255);
@@ -415,32 +418,30 @@
         return `linear-gradient(200deg, rgb(${r1}, ${g1}, ${b1}), rgb(${r2}, ${g2}, ${b2}), rgb(${r3}, ${g3}, ${b3}), rgb(${r4}, ${g4}, ${b4}))`;
       }
 
-      // Dastlabki gradientni o‘rnatish
       layer1.style.background = getRandomGradient();
 
-      // Har 3 soniyada gradientni o‘zgartirish
       setInterval(() => {
         if (isLayer1Active) {
-          // Layer 2 ga yangi gradientni qo‘yish va ko‘rsatish
           layer2.style.background = getRandomGradient();
           layer2.style.opacity = 1;
           layer1.style.opacity = 0;
         } else {
-          // Layer 1 ga yangi gradientni qo‘yish va ko‘rsatish
           layer1.style.background = getRandomGradient();
           layer1.style.opacity = 1;
           layer2.style.opacity = 0;
         }
-        isLayer1Active = !isLayer1Active; // Qatlamni almashish
+        isLayer1Active = !isLayer1Active;
       }, 10000);
 
-      function clearStudents(groupNumber) {
-        localStorage.removeItem(`group${groupNumber}`);
-        const studentListElement = document.getElementById(
-          `students-${groupNumber}`
-        );
-        if (studentListElement) {
-          studentListElement.innerHTML = "<li>Dasturchi yo'q</li>";
+      function clearStudents(groupKey) {
+        localStorage.removeItem(groupKey);
+        const group = groups.find(g => g.key === groupKey);
+        if (group) {
+          group.students = [];
+          const studentListElement = document.getElementById(`students-${groupKey}`);
+          if (studentListElement) {
+            studentListElement.innerHTML = "<li class='no-student'>Dasturchi yo'q</li>";
+          }
         }
       }
     </script>
