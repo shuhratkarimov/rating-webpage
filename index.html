@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Start Guruh</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      text-align: center;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    h1 {
+      color: white;
+      margin-bottom: 30px;
+    }
+
+    input {
+      display: block;
+      width: 300px;
+      margin: 10px auto;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+      outline: none;
+      transition: box-shadow 0.3s ease-in-out;
+    }
+
+    input:focus {
+      box-shadow: 0 0 10px #fff;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 30px;
+      background: #00c9a7;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background: #00a68e;
+      transform: scale(1.05);
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-30px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Guruhlarni kiriting</h1>
+    <input id="group1" placeholder="1-guruh o'quvchilari (vergul bilan)" />
+    <input id="group2" placeholder="2-guruh o'quvchilari (vergul bilan)" />
+    <input id="group3" placeholder="3-guruh o'quvchilari (vergul bilan)" />
+    <button onclick="startApp()">Boshlash</button>
+  </div>
+
+  <script>
+    function startApp() {
+      const group1 = document.getElementById("group1").value.split(",");
+      const group2 = document.getElementById("group2").value.split(",");
+      const group3 = document.getElementById("group3").value.split(",");
+
+      localStorage.setItem("group1", JSON.stringify(group1));
+      localStorage.setItem("group2", JSON.stringify(group2));
+      localStorage.setItem("group3", JSON.stringify(group3));
+
+      window.location.href = "index.html"; // ikkinchi sahifaga o‘tish
+    }
+  </script>
+</body>
+</html>
