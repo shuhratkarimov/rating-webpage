@@ -285,7 +285,7 @@
       });
 
       // Ball bo'yicha saralash (kamayish tartibida)
-      personalScores.sort((a, b) => b.score - a.score);
+      personalScores.sort((a, b) => (parseFloat(b.score) || 0) - (parseFloat(a.score) || 0));
 
       // Jadvalni to'ldirish
       const tbody = document.getElementById("rankingTableBody");
