@@ -188,6 +188,7 @@
         <tr>
           <th>#</th>
           <th>Ism</th>
+          <th>Guruh</th>
           <th>Ball</th>
         </tr>
       </thead>
@@ -262,6 +263,8 @@
           group.students.includes(studentName)
         );
 
+        console.log(foundGroup);
+        
         if (foundGroup) {
           const studentCount = foundGroup.students.length;
           const scorePerStudent =
@@ -278,11 +281,13 @@
         else {
           return {
           name: studentName || "😵‍💫 Topilmadi... 🧐",
-          group: foundGroup.name || "😫 Qatnashmagan... 😫",
+          group: foundGroup || "😫 Qatnashmagan... 😫",
           score: "👌 noool 😴",
         };
         }
       });
+      console.log(personalScores);
+      
 
       // Ball bo'yicha saralash (kamayish tartibida)
       personalScores.sort((a, b) => (parseFloat(b.score) || 0) - (parseFloat(a.score) || 0));
