@@ -244,8 +244,8 @@
 
           tr.innerHTML = `
           <td class="medal">${medal}</td>
-          <td>${student.name}</td>
-          <td>${student.score}</td>
+          <td>${student.name || "😵‍💫 Topilmadi..."}</td>
+          <td>${student.score || "👌 noool"}</td>
           <td>
             <button style = "font-size: 35px; line-height: 60px; font-family: DynaPuff; border-radius: 50%; background-color: green; color: white;" onclick="adjustScore('${student.name}', 10)">+10</button>
             <button style = "font-size: 35px; font-family: DynaPuff; border-radius: 50%; background-color: green; color: white;" onclick="adjustScore('${student.name}', 5)">+5</button>

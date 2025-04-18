@@ -270,9 +270,9 @@
               : 0;
 
           return {
-            name: studentName,
-            group: foundGroup.name,
-            score: scorePerStudent,
+            name: studentName || "😵‍💫 Topilmadi...",
+            group: foundGroup.name || "😫 Qatnashmagan...",
+            score: scorePerStudent || "👌 noool",
           };
         }
 
