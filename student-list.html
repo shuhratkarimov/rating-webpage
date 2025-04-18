@@ -247,11 +247,21 @@
           <td>${student.name || "😵‍💫 Topilmadi...🧐"}</td>
           <td>${student.score || "👌 noool 😴"}</td>
           <td>
-            <button style = "font-size: 35px; line-height: 60px; font-family: DynaPuff; border-radius: 50%; background-color: green; color: white;" onclick="adjustScore('${student.name}', 10)">+10</button>
-            <button style = "font-size: 35px; font-family: DynaPuff; border-radius: 50%; background-color: green; color: white;" onclick="adjustScore('${student.name}', 5)">+5</button>
-            <button style = "font-size: 25px; font-family: DynaPuff; border-radius: 50%; background-color: green; color: white;" onclick="adjustScore('${student.name}', 1)">+1</button>
-            <button style = "font-size: 35px; font-family: DynaPuff; border-radius: 50%; background-color: red; color: white;" onclick="adjustScore('${student.name}', -5)">-5</button>
-            <button style = "font-size: 25px; font-family: DynaPuff; border-radius: 50%; background-color: red; color: white;" onclick="adjustScore('${student.name}', -1)">-1</button>
+            <button style = "font-size: 35px; line-height: 60px; font-family: DynaPuff; border-radius: 50%; background-color: green; color: white;" onclick="adjustScore('${
+              student.name
+            }', 10)">+10</button>
+            <button style = "font-size: 35px; font-family: DynaPuff; border-radius: 50%; background-color: green; color: white;" onclick="adjustScore('${
+              student.name
+            }', 5)">+5</button>
+            <button style = "font-size: 25px; font-family: DynaPuff; border-radius: 50%; background-color: green; color: white;" onclick="adjustScore('${
+              student.name
+            }', 1)">+1</button>
+            <button style = "font-size: 35px; font-family: DynaPuff; border-radius: 50%; background-color: red; color: white;" onclick="adjustScore('${
+              student.name
+            }', -5)">-5</button>
+            <button style = "font-size: 25px; font-family: DynaPuff; border-radius: 50%; background-color: red; color: white;" onclick="adjustScore('${
+              student.name
+            }', -1)">-1</button>
           </td>
         `;
           tbody.appendChild(tr);
@@ -274,8 +284,12 @@
       function adjustScore(name, delta) {
         const student = studentScores.find((s) => s.name === name);
         if (student) {
+          // Agar score noto‘g‘ri formatda bo‘lsa, uni 0 ga tenglashtiramiz
+          if (typeof student.score !== "number") {
+            student.score = 0;
+          }
           student.score += delta;
-          renderTable(); // Ballar o'zgarganidan keyin jadvalni yangilash
+          renderTable();
         }
       }
 
