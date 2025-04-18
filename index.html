@@ -16,6 +16,7 @@
       background: linear-gradient(135deg, #667eea, #764ba2);
       height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       overflow: hidden;
@@ -83,6 +84,14 @@
     <input id="group2" placeholder="Haqiqiy Fullstackchilar😎" />
     <input id="group3" placeholder="Doim birinchilar1️⃣" />
     <button onclick="startApp()">Boshlash</button>
+  </div>
+  <div style="display: flex; gap: 20px; margin-top: 20px;">
+    <a href="./rating-list.html" style="text-decoration: none; padding: 10px 20px; font-size: 16px; color: white; background-color: #2196F3; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease;">
+      Guruhlar miqyosidagi reyting
+    </a>
+    <a href="./student-list.html" style="text-decoration: none; padding: 10px 20px; font-size: 16px; color: white; background-color: #f44336; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease;">
+      Individual reyting
+    </a>
   </div>
   <script>
     function startApp() {

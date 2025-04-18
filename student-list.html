@@ -1,31 +1,41 @@
 <!DOCTYPE html>
 <html lang="uz">
-<head>
-  <meta charset="UTF-8" />
-  <title>Individual reyting</title>
-  <link
-    rel="icon"
-    href="https://cdn-icons-png.flaticon.com/128/15379/15379746.png"
-    type="image/x-icon"
-  />
-  <style>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Individual reyting</title>
+    <link
+      rel="icon"
+      href="https://cdn-icons-png.flaticon.com/128/15379/15379746.png"
+      type="image/x-icon"
+    />
+    <style>
       body {
         font-family: DynaPuff;
+        background: #d3e665;
         padding: 2rem;
-        background: #f5f5f5;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
       }
       h1 {
+        position: static;
         text-align: center;
-        color: #333;
+        padding: 20px;
+        margin-top: 0px;
+        bottom: 990px;
+        font-size: 32px;
+        color: #fff;
+        background-color: #4caf50;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        letter-spacing: 2px;
+        text-transform: uppercase;
       }
       table {
         width: 60%;
         border-collapse: collapse;
-        margin-top: 2rem;
+        margin-top: 60px;
         background-color: #fff;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
@@ -128,142 +138,181 @@
         font-size: 18px;
         margin-top: 20px;
       }
-  </style>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&display=swap" rel="stylesheet" />
-</head>
-<body>
-  <h1>Individual musobaqa bo'yicha reyting</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Ism</th>
-        <th>Ball</th>
-        <th>Qo'shish/Ayirish</th>
-        <tbody id="rankingTableBody"></tbody>
-      </tr>
-    </thead>
-  </table>
-  <button id="saveButton" onclick="saveScores()">💾 Saqlash</button>
-  <iframe
-    width="110"
-    height="200"
-    src="https://www.myinstants.com/instant/crowd-cheer-applause-73083/embed/"
-    frameborder="0"
-    scrolling="no"
-  ></iframe>
-  <canvas class="confetti" id="confetti-canvas"></canvas>
-  <div id="errorMessage" class="error-message"></div>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <script>
-    const errorMessageDiv = document.getElementById("errorMessage");
-    const tbody = document.getElementById("rankingTableBody");
-  
-    // LocalStorage'dan o'quvchilar va ballarni olish
-    function getStudentScores() {
-      const savedScores = localStorage.getItem("studentScores");
-      return savedScores ? JSON.parse(savedScores) : [];
-    }
-  
-    let studentScores = getStudentScores();
-  
-    // Jadvalni render qilish
-    function renderTable() {
-      tbody.innerHTML = "";
-  
-      // Ballarni kamayish tartibida saralash
-      studentScores.sort((a, b) => b.score - a.score);
-  
-      studentScores.forEach((student, index) => {
-        const tr = document.createElement("tr");
-  
-        // Birinchi, ikkinchi va uchinchi o'rinlar uchun maxsus klasslar
-        if (index === 0) tr.classList.add("gold");
-        else if (index === 1) tr.classList.add("silver");
-        else if (index === 2) tr.classList.add("bronze");
-  
-        // Medallarni belgilash
-        const medal =
-          index === 0
-            ? "🥇"
-            : index === 1
-            ? "🥈"
-            : index === 2
-            ? "🥉"
-            : index + 1;
-  
-        tr.innerHTML = `
+      .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        margin: 0px 0;
+      }
+
+      .btn {
+        padding: 12px 24px;
+        text-decoration: none;
+        font-size: 25px;
+        font-weight: 600;
+        background-color: #4f46e5; /* Indigo-600 */
+        color: white;
+        border: none;
+        border-radius: 9999px; /* pill shape */
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        transition: background-color 0.3s ease, transform 0.2s ease;
+      }
+
+      .btn:hover {
+        background-color: #4338ca; /* Indigo-700 */
+        transform: scale(1.05);
+      }
+
+      .btn:active {
+        transform: scale(0.97);
+      }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="pagination">
+      <a href="./index.html" class="btn">⬅️ Bosh sahifaga qaytish</a>
+      <h1>Individual musobaqa bo'yicha reyting</h1>
+      <a href="./rating-list.html" class="btn next">Guruhlar reytingi ➡️</a>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Ism</th>
+          <th>Ball</th>
+          <th>Qo'shish/Ayirish</th>
+          <tbody id="rankingTableBody"></tbody>
+        </tr>
+      </thead>
+    </table>
+    <button id="saveButton" onclick="saveScores()">💾 Saqlash</button>
+    <iframe
+      width="110"
+      height="200"
+      src="https://www.myinstants.com/instant/crowd-cheer-applause-73083/embed/"
+      frameborder="0"
+      scrolling="no"
+    ></iframe>
+    <canvas class="confetti" id="confetti-canvas"></canvas>
+    <div id="errorMessage" class="error-message"></div>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+      const errorMessageDiv = document.getElementById("errorMessage");
+      const tbody = document.getElementById("rankingTableBody");
+
+      // LocalStorage'dan o'quvchilar va ballarni olish
+      function getStudentScores() {
+        const savedScores = localStorage.getItem("studentScores");
+        return savedScores ? JSON.parse(savedScores) : [];
+      }
+
+      let studentScores = getStudentScores();
+
+      // Jadvalni render qilish
+      function renderTable() {
+        tbody.innerHTML = "";
+
+        // Ballarni kamayish tartibida saralash
+        studentScores.sort((a, b) => b.score - a.score);
+
+        studentScores.forEach((student, index) => {
+          const tr = document.createElement("tr");
+
+          // Birinchi, ikkinchi va uchinchi o'rinlar uchun maxsus klasslar
+          if (index === 0) tr.classList.add("gold");
+          else if (index === 1) tr.classList.add("silver");
+          else if (index === 2) tr.classList.add("bronze");
+
+          // Medallarni belgilash
+          const medal =
+            index === 0
+              ? "🥇"
+              : index === 1
+              ? "🥈"
+              : index === 2
+              ? "🥉"
+              : index + 1;
+
+          tr.innerHTML = `
           <td class="medal">${medal}</td>
           <td>${student.name}</td>
           <td>${student.score}</td>
           <td>
             <button style = "font-size: 35px; line-height: 60px; font-family: DynaPuff; border-radius: 50%; background-color: green; color: white;" onclick="adjustScore('${student.name}', 10)">+10</button>
             <button style = "font-size: 35px; font-family: DynaPuff; border-radius: 50%; background-color: green; color: white;" onclick="adjustScore('${student.name}', 5)">+5</button>
+            <button style = "font-size: 25px; font-family: DynaPuff; border-radius: 50%; background-color: green; color: white;" onclick="adjustScore('${student.name}', 1)">+1</button>
             <button style = "font-size: 35px; font-family: DynaPuff; border-radius: 50%; background-color: red; color: white;" onclick="adjustScore('${student.name}', -5)">-5</button>
+            <button style = "font-size: 25px; font-family: DynaPuff; border-radius: 50%; background-color: red; color: white;" onclick="adjustScore('${student.name}', -1)">-1</button>
           </td>
         `;
-        tbody.appendChild(tr);
-      });
-    }
-  
-    // Saqlash tugmasi bosilganda ballarni saqlash
-    const saveButton = document.getElementById("saveButton");
-  
-    saveButton.addEventListener("click", () => {
-      saveScores();
-    });
-  
-    // O'quvchilarning ballarini localStorage'ga saqlash
-    function saveScores() {
-      const saved = studentScores.map(({ name, score }) => ({
-        name,
-        score,
-      }));
-      localStorage.setItem("studentScores", JSON.stringify(saved));
-      alert("✅ Reyting saqlandi!");
-      window.navigator.vibrate?.(100);
-      triggerConfetti();
-    }
-  
-    // Ballarni o'zgartirish
-    function adjustScore(name, delta) {
-      const student = studentScores.find((s) => s.name === name);
-      if (student) {
-        student.score += delta;
-        renderTable(); // Ballar o'zgarganidan keyin jadvalni yangilash
+          tbody.appendChild(tr);
+        });
       }
-    }
-  
-    // Confetti effektini boshlash
-    function triggerConfetti() {
-      const duration = 2 * 1000;
-      const end = Date.now() + duration;
-  
-      (function frame() {
-        confetti({
-          particleCount: 5,
-          angle: 60,
-          spread: 55,
-          origin: { x: 0 },
-        });
-        confetti({
-          particleCount: 5,
-          angle: 120,
-          spread: 55,
-          origin: { x: 1 },
-        });
-  
-        if (Date.now() < end) {
-          requestAnimationFrame(frame);
+
+      // Saqlash tugmasi bosilganda ballarni saqlash
+      const saveButton = document.getElementById("saveButton");
+
+      saveButton.addEventListener("click", () => {
+        saveScores();
+      });
+
+      // O'quvchilarning ballarini localStorage'ga saqlash
+      function saveScores() {
+        const saved = studentScores.map(({ name, score }) => ({
+          name,
+          score,
+        }));
+        localStorage.setItem("studentScores", JSON.stringify(saved));
+        alert("✅ Reyting saqlandi!");
+        window.navigator.vibrate?.(100);
+        triggerConfetti();
+      }
+
+      // Ballarni o'zgartirish
+      function adjustScore(name, delta) {
+        const student = studentScores.find((s) => s.name === name);
+        if (student) {
+          student.score += delta;
+          renderTable(); // Ballar o'zgarganidan keyin jadvalni yangilash
         }
-      })();
-    }
-  
-    // Jadvalni dastlab render qilish
-    renderTable();
-  </script>  
-  
-</body>
+      }
+
+      // Confetti effektini boshlash
+      function triggerConfetti() {
+        const duration = 2 * 1000;
+        const end = Date.now() + duration;
+
+        (function frame() {
+          confetti({
+            particleCount: 5,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 },
+          });
+          confetti({
+            particleCount: 5,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 },
+          });
+
+          if (Date.now() < end) {
+            requestAnimationFrame(frame);
+          }
+        })();
+      }
+
+      // Jadvalni dastlab render qilish
+      renderTable();
+    </script>
+  </body>
 </html>
