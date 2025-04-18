@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <title>Individual reyting</title>
+  <link
+    rel="icon"
+    href="https://cdn-icons-png.flaticon.com/128/15379/15379746.png"
+    type="image/x-icon"
+  />
+  <style>
+      body {
+        font-family: DynaPuff;
+        padding: 2rem;
+        background: #f5f5f5;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+      table {
+        width: 60%;
+        border-collapse: collapse;
+        margin-top: 2rem;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      th,
+      td {
+        padding: 1rem;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+        max-width: 200px; /* 👈 ustunlar cheklangan bo'ladi */
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+        font-size: 30px;
+      }
+
+      tr.gold {
+        background: #fff9c4;
+      }
+      tr.silver {
+        background: #e0e0e0;
+      }
+      tr.bronze {
+        background: #ffe0b2;
+      }
+      .medal {
+        font-size: 1.5rem;
+        animation: bounce 1s infinite;
+      }
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-5px);
+        }
+      }
+
+      tr:hover .medal {
+        transform: scale(1.5);
+        transition: transform 0.3s ease;
+      }
+
+      .medal:hover {
+        animation: rotate 1s infinite linear;
+      }
+
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      #saveButton {
+        margin-top: 2rem;
+        padding: 0.75rem 2rem;
+        font-size: 1.4rem;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .confetti {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+      }
+
+      tr:last-child td {
+        border-bottom: none;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f2f9fc;
+      }
+
+      .rank {
+        font-weight: bold;
+        color: #e67e22;
+      }
+
+      .highlight {
+        font-weight: 600;
+        color: #2c3e50;
+      }
+
+      .error-message {
+        color: #e74c3c;
+        font-size: 18px;
+        margin-top: 20px;
+      }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <h1>Individual musobaqa bo'yicha reyting</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Ism</th>
+        <th>Ball</th>
+        <th>Qo'shish/Ayirish</th>
+        <tbody id="rankingTableBody"></tbody>
+      </tr>
+    </thead>
+  </table>
+  <button id="saveButton" onclick="saveScores()">💾 Saqlash</button>
+  <iframe
+    width="110"
+    height="200"
+    src="https://www.myinstants.com/instant/crowd-cheer-applause-73083/embed/"
+    frameborder="0"
+    scrolling="no"
+  ></iframe>
+  <canvas class="confetti" id="confetti-canvas"></canvas>
+  <div id="errorMessage" class="error-message"></div>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script>
+    const errorMessageDiv = document.getElementById("errorMessage");
+    const tbody = document.getElementById("rankingTableBody");
+  
+    // LocalStorage'dan o'quvchilar va ballarni olish
+    function getStudentScores() {
+      const savedScores = localStorage.getItem("studentScores");
+      return savedScores ? JSON.parse(savedScores) : [];
+    }
+  
+    let studentScores = getStudentScores();
+  
+    // Jadvalni render qilish
+    function renderTable() {
+      tbody.innerHTML = "";
+  
+      // Ballarni kamayish tartibida saralash
+      studentScores.sort((a, b) => b.score - a.score);
+  
+      studentScores.forEach((student, index) => {
+        const tr = document.createElement("tr");
+  
+        // Birinchi, ikkinchi va uchinchi o'rinlar uchun maxsus klasslar
+        if (index === 0) tr.classList.add("gold");
+        else if (index === 1) tr.classList.add("silver");
+        else if (index === 2) tr.classList.add("bronze");
+  
+        // Medallarni belgilash
+        const medal =
+          index === 0
+            ? "🥇"
+            : index === 1
+            ? "🥈"
+            : index === 2
+            ? "🥉"
+            : index + 1;
+  
+        tr.innerHTML = `
+          <td class="medal">${medal}</td>
+          <td>${student.name}</td>
+          <td>${student.score}</td>
+          <td>
+            <button style = "font-size: 35px; line-height: 60px; font-family: DynaPuff; border-radius: 50%; background-color: green; color: white;" onclick="adjustScore('${student.name}', 10)">+10</button>
+            <button style = "font-size: 35px; font-family: DynaPuff; border-radius: 50%; background-color: green; color: white;" onclick="adjustScore('${student.name}', 5)">+5</button>
+            <button style = "font-size: 35px; font-family: DynaPuff; border-radius: 50%; background-color: red; color: white;" onclick="adjustScore('${student.name}', -5)">-5</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+  
+    // Saqlash tugmasi bosilganda ballarni saqlash
+    const saveButton = document.getElementById("saveButton");
+  
+    saveButton.addEventListener("click", () => {
+      saveScores();
+    });
+  
+    // O'quvchilarning ballarini localStorage'ga saqlash
+    function saveScores() {
+      const saved = studentScores.map(({ name, score }) => ({
+        name,
+        score,
+      }));
+      localStorage.setItem("studentScores", JSON.stringify(saved));
+      alert("✅ Reyting saqlandi!");
+      window.navigator.vibrate?.(100);
+      triggerConfetti();
+    }
+  
+    // Ballarni o'zgartirish
+    function adjustScore(name, delta) {
+      const student = studentScores.find((s) => s.name === name);
+      if (student) {
+        student.score += delta;
+        renderTable(); // Ballar o'zgarganidan keyin jadvalni yangilash
+      }
+    }
+  
+    // Confetti effektini boshlash
+    function triggerConfetti() {
+      const duration = 2 * 1000;
+      const end = Date.now() + duration;
+  
+      (function frame() {
+        confetti({
+          particleCount: 5,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+        });
+        confetti({
+          particleCount: 5,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+        });
+  
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      })();
+    }
+  
+    // Jadvalni dastlab render qilish
+    renderTable();
+  </script>  
+  
+</body>
+</html>

@@ -280,6 +280,7 @@
     </div>
 
     <div id="groupsContainer"></div>
+    <button class="nextPageBtn" onclick="nextPage()">Reytinglarni ko'rish</button>
 
     <script>
       const groups = [
@@ -443,6 +444,10 @@
             studentListElement.innerHTML = "<li class='no-student'>Dasturchi yo'q</li>";
           }
         }
+      }
+
+      function nextPage(){
+        window.location.href = "rating-list.html"
       }
     </script>
   </body>
