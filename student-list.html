@@ -258,13 +258,6 @@
         });
       }
 
-      // Saqlash tugmasi bosilganda ballarni saqlash
-      const saveButton = document.getElementById("saveButton");
-
-      saveButton.addEventListener("click", () => {
-        saveScores();
-      });
-
       // O'quvchilarning ballarini localStorage'ga saqlash
       function saveScores() {
         const saved = studentScores.map(({ name, score }) => ({
