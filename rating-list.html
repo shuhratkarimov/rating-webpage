@@ -32,7 +32,7 @@
         text-transform: uppercase;
       }
       table {
-        width: 50%;
+        width: 70%;
         border-collapse: collapse;
         margin-top: 90px;
         background-color: #fff;
@@ -179,7 +179,7 @@
   </head>
   <body>
     <div class="pagination">
-      <a href="./index.html" class="btn">⬅️ Bosh sahifaga qaytish</a>
+      <a href="./intro.html" class="btn">⬅️ Bosh sahifaga qaytish</a>
       <h1>🏆 Kichik guruhlar miqyosida olingan reyting</h1>
       <a href="./student-list.html" class="btn next">Individual reyting ➡️</a>
     </div>
@@ -273,14 +273,14 @@
               : 0;
 
           return {
-            name: studentName || "😵‍💫 Topilmadi... 🧐",
+            name: studentName || "😵‍💫 Topilmadi 🧐",
             group: foundGroup.name || "😫 Qatnashmagan... 😫",
             score: scorePerStudent || "👌 noool 😴",
           };
         }
         else {
           return {
-          name: studentName || "😵‍💫 Topilmadi... 🧐",
+          name: studentName || "😵‍💫 Topilmadi 🧐",
           group: foundGroup || "😫 Qatnashmagan... 😫",
           score: "👌 noool 😴",
         };

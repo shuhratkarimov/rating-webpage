@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kirish</title>
+  <link
+    rel="icon"
+    href="https://cdn-icons-png.flaticon.com/128/15379/15379746.png"
+    type="image/x-icon"
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=DynaPuff:wght@400..700&family=Heebo:wght@100..900&family=Indie+Flower&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Slackey&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      margin: 0;
+      font-family: DynaPuff;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      text-align: center;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    h1 {
+      color: white;
+      margin-bottom: 30px;
+    }
+
+    input {
+      display: block;
+      width: 300px;
+      margin: 10px auto;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+      outline: none;
+      transition: box-shadow 0.3s ease-in-out;
+      font-family: DynaPuff;
+    }
+
+    input:focus {
+      box-shadow: 0 0 10px #fff;
+    }
+
+    button {
+      margin-top: 20px;
+      font-family: DynaPuff;
+      padding: 12px 30px;
+      background: #00c9a7;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background: #00a68e;
+      transform: scale(1.05);
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-30px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Guruhlarni kiriting (vergul bilan)</h1>
+    <input id="group1" placeholder="Kod ustalari💪" />
+    <input id="group2" placeholder="Haqiqiy Fullstackchilar😎" />
+    <input id="group3" placeholder="Doim birinchilar1️⃣" />
+    <button onclick="startApp()">Boshlash</button>
+  </div>
+  <div style="display: flex; gap: 20px; margin-top: 20px;">
+    <a href="./rating-list.html" style="text-decoration: none; padding: 10px 20px; font-size: 16px; color: white; background-color: #2196F3; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease;">
+      Guruhlar miqyosidagi reyting
+    </a>
+    <a href="./student-list.html" style="text-decoration: none; padding: 10px 20px; font-size: 16px; color: white; background-color: #f44336; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease;">
+      Individual reyting
+    </a>
+  </div>
+  <script>
+    function startApp() {
+      const group1 = document.getElementById("group1").value.split(",");
+      const group2 = document.getElementById("group2").value.split(",");
+      const group3 = document.getElementById("group3").value.split(",");
+
+      localStorage.setItem("group1", JSON.stringify(group1));
+      localStorage.setItem("group2", JSON.stringify(group2));
+      localStorage.setItem("group3", JSON.stringify(group3));
+
+      window.location.href = "main.html"; // ikkinchi sahifaga o‘tish
+    }
+  </script>
+</body>
+</html>
